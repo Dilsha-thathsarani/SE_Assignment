@@ -1,4 +1,5 @@
 import React from "react";
+import "../components/CSS/home.css";
 
 export default function Header() {
   return (

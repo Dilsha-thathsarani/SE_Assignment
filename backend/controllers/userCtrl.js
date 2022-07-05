@@ -150,6 +150,20 @@ export const registerUser = async (req, res) => {
   }
 };
 
+//Get all users
+export const getAllUsersInfo = async (req, res) => {
+  try {
+    console.log("getAllUsersInfo", req.user);
+    await User.find()
+      .select("-password") //exception for password
+      .then((data) => {
+        res.status(200).json(data);
+      });
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
+
 //Check if email is valid format
 function validateEmail(email) {
   const regex =

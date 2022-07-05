@@ -6,13 +6,16 @@ import {
   getAccessToken,
   resetPassword,
   registerUser,
+  getAllUsersInfo,
 } from "../controllers/userCtrl.js";
 import auth from "../middleware/auth.js";
+import authAdmin from "../middleware/authAdmin.js";
 
 router.post("/createUser", createUser);
 router.post("/firstLogin", firstLogin);
 router.post("/refresh_token", getAccessToken);
 router.post("/reset", auth, resetPassword);
 router.post("/register", registerUser);
+router.get("/allUsers", auth, authAdmin, getAllUsersInfo);
 
 export default router;

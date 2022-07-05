@@ -6,13 +6,13 @@ const temPasswordHash = await bcrypt.hash("12345678", 12);
 const Admins = [
   {
     name: "Sanjula",
-    email: "sdulshan123@gmail.com",
+    email: "sdulshan10@gmail.com",
     accountType: "admin",
     password: temPasswordHash,
   },
   {
     name: "Dilsha",
-    email: "dilsha99t@gmail.com",
+    email: "dilsha@gmail.com",
     accountType: "student",
     password: temPasswordHash,
   },
@@ -20,6 +20,7 @@ const Admins = [
 
 const seedAdmin = async () => {
   try {
+    await Admin.deleteMany({});
     await Admin.create(Admins);
     console.log("Admin Created...");
   } catch (err) {

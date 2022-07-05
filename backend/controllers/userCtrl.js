@@ -1,6 +1,7 @@
-import CreateUser from "./createUser";
+import CreateUser from "../models/createUser.js";
 import { nanoid } from "nanoid";
-
+import sendMail from "./sendMail.js";
+import bcrypt from "bcrypt";
 //create user to the system
 export const createUser = async (req, res) => {
   try {
@@ -41,7 +42,7 @@ export const createUser = async (req, res) => {
     }).then((data) => {
       res.status(200).json(data);
 
-      const url = `${process.env.CLIENT_URL}/user/firstLogin`;
+      const url = `${process.env.CLIENT_URL}/login`;
       console.log("url", url);
 
       //Send temporary password and login url to user email

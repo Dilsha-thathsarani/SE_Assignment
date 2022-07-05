@@ -96,6 +96,46 @@ export const firstLogin = async (req, res) => {
   }
 };
 
+//Reset password
+export const resetPassword = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        msg: "Please fill all the fields",
+      });
+    }
+    //Check if email already exists
+    const user = await CreateUser.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        msg: "User does not exist",
+      });
+    }
+
+    //check password length
+    if (password.length < 8) {
+      return res.status(400).json({
+        msg: "Password must be at least 8 characters long",
+      });
+    }
+    //Hash password
+    const passwordHash = await bcrypt.hash(password, 12);
+    //Update password
+    await CreateUser.findOneAndUpdate(
+      { email },
+      { password: passwordHash }
+    ).then(() => {
+      res.status(200).json({
+        msg: "Password reset successfully",
+      });
+    });
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
+
 //Check if email is valid format
 function validateEmail(email) {
   const regex =

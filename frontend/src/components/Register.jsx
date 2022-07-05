@@ -27,9 +27,9 @@ export default function Register() {
           <p>Phone No</p>
           <input
             type="tel"
-            name="Phone Number"
-            pattern="+94[7-9]{2}-[0-9]{3}-[0-9]{4}"
-            value="+94"
+            name="telephone"
+            pattern="[7-9]{2}-[0-9]{3}-[0-9]{4}"
+            required
           />
 
           <button className="btn" type="submit" name="submit">

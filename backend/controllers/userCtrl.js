@@ -2,6 +2,7 @@ import CreateUser from "../models/createUser.js";
 import { nanoid } from "nanoid";
 import sendMail from "./sendMail.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 //create user to the system
 export const createUser = async (req, res) => {
   try {
@@ -43,7 +44,6 @@ export const createUser = async (req, res) => {
       res.status(200).json(data);
 
       const url = `${process.env.CLIENT_URL}/login`;
-      console.log("url", url);
 
       //Send temporary password and login url to user email
       sendMail(name, temPassword, email, url);
@@ -65,6 +65,7 @@ export const firstLogin = async (req, res) => {
 
     //Check if email already exists
     const user = await CreateUser.findOne({ email });
+
     if (!user) {
       return res.status(400).json({
         msg: "User does not exist",
@@ -77,8 +78,10 @@ export const firstLogin = async (req, res) => {
         msg: "Password is incorrect",
       });
     }
+
     //refresh token
     const refresh_token = createRefreshToken({ id: user._id });
+
     res.cookie("refreshtoken", refresh_token, {
       httpOnly: true,
       path: "/user/refresh_token",
@@ -97,7 +100,7 @@ export const firstLogin = async (req, res) => {
 function validateEmail(email) {
   const regex =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  console.log(regex.test(email));
+
   return regex.test(email);
 }
 
@@ -105,5 +108,31 @@ function validateEmail(email) {
 const createRefreshToken = (payload) => {
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "7d",
+  });
+};
+
+//get access token
+export const getAccessToken = (req, res) => {
+  try {
+    const rf_token = req.cookies.refreshtoken;
+    if (!rf_token) return res.status(400).json({ msg: "Please login now!" });
+
+    jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+      if (err) return res.status(400).json({ msg: "Please login now!" });
+
+      const access_token = createAccessToken({ id: user.id });
+      console.log(user);
+      res.json({ access_token });
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ msg: err.message });
+  }
+};
+
+//Create access token
+const createAccessToken = (payload) => {
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "15m",
   });
 };

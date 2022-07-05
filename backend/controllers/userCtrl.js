@@ -53,6 +53,46 @@ export const createUser = async (req, res) => {
   }
 };
 
+//First Login user
+export const firstLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({
+        msg: "Please fill all the fields",
+      });
+    }
+
+    //Check if email already exists
+    const user = await CreateUser.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        msg: "User does not exist",
+      });
+    }
+    //Check if password is correct
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({
+        msg: "Password is incorrect",
+      });
+    }
+    //refresh token
+    const refresh_token = createRefreshToken({ id: user._id });
+    res.cookie("refreshtoken", refresh_token, {
+      httpOnly: true,
+      path: "/user/refresh_token",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
+    return res.status(200).json({
+      msg: "Login Success",
+    });
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
+
 //Check if email is valid format
 function validateEmail(email) {
   const regex =
@@ -60,3 +100,10 @@ function validateEmail(email) {
   console.log(regex.test(email));
   return regex.test(email);
 }
+
+//Create refresh token
+const createRefreshToken = (payload) => {
+  return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+    expiresIn: "7d",
+  });
+};

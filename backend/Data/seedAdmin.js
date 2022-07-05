@@ -3,24 +3,18 @@ import bcrypt from "bcrypt";
 
 const temPasswordHash = await bcrypt.hash("12345678", 12);
 
-const Admins = [
-  {
-    name: "Sanjula",
-    email: "sdulshan10@gmail.com",
-    accountType: "admin",
-    password: temPasswordHash,
-  },
-  {
-    name: "Dilsha",
-    email: "dilsha@gmail.com",
-    accountType: "student",
-    password: temPasswordHash,
-  },
-];
+const Admins = {
+  firstName: "Sanjula",
+  lastName: "Dulshan",
+  email: "sdulshan10@gmail.com",
+  accountType: "admin",
+  password: temPasswordHash,
+};
 
 const seedAdmin = async () => {
+  console.log("Seeding Admin", Admins.email);
   try {
-    await Admin.deleteMany({});
+    await Admin.findOneAndDelete({ email: Admins.email });
     await Admin.create(Admins);
     console.log("Admin Created...");
   } catch (err) {

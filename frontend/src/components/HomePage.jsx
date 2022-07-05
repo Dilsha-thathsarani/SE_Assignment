@@ -20,7 +20,7 @@ export default function Header() {
             </div>
             <ul className="nav-area">
               <li>
-                <a href="/user">Home</a>
+                <a href="/create">Home</a>
               </li>
               <li>
                 <a href="#">About</a>

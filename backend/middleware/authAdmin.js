@@ -1,4 +1,4 @@
-import User from "../models/createUser.js";
+import User from "../models/user.js";
 
 const authAdmin = async (req, res, next) => {
   try {

@@ -1,4 +1,4 @@
-import Admin from "../models/createUser.js";
+import Admin from "../models/user.js";
 import bcrypt from "bcrypt";
 
 const temPasswordHash = await bcrypt.hash("12345678", 12);

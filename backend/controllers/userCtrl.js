@@ -1,4 +1,3 @@
-import CreateUser from "../models/createUser.js";
 import User from "../models/user.js";
 import { nanoid } from "nanoid";
 import sendMail from "./sendMail.js";
@@ -25,7 +24,7 @@ export const createUser = async (req, res) => {
     }
 
     //Check if email already exists
-    const user = await CreateUser.findOne({ email });
+    const user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({
         msg: "User already exists",
@@ -36,7 +35,7 @@ export const createUser = async (req, res) => {
     const temPasswordHash = await bcrypt.hash(temPassword, 12);
 
     //Create new user
-    await CreateUser.create({
+    await User.create({
       name,
       email,
       accountType,
@@ -54,8 +53,8 @@ export const createUser = async (req, res) => {
   }
 };
 
-//First Login user
-export const firstLogin = async (req, res) => {
+//Login user
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -65,7 +64,7 @@ export const firstLogin = async (req, res) => {
     }
 
     //Check if email already exists
-    const user = await CreateUser.findOne({ email });
+    const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(400).json({
@@ -111,14 +110,13 @@ export const resetPassword = async (req, res) => {
     //Hash password
     const passwordHash = await bcrypt.hash(password, 12);
     //Update password
-    await CreateUser.findOneAndUpdate(
-      { email },
-      { password: passwordHash }
-    ).then(() => {
-      res.status(200).json({
-        msg: "Password reset successfully",
-      });
-    });
+    await User.findOneAndUpdate({ email }, { password: passwordHash }).then(
+      () => {
+        res.status(200).json({
+          msg: "Password reset successfully",
+        });
+      }
+    );
   } catch (err) {
     res.status(400).json(err);
   }
@@ -164,23 +162,23 @@ export const getAllUsersInfo = async (req, res) => {
   }
 };
 
-//Logout user
-export const logout = async (req, res) => {
+//Get user information
+export const getUserInfo = async (req, res) => {
+  console.log("getUserInfo", req.user);
   try {
-    res.clearCookie("refreshtoken", { path: "/user/refresh_token" });
-    return res.json({ msg: "Logged out." });
+    const user = await User.findById(req.user.id).select("-password");
+
+    res.json(user);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
 };
 
-//Get user information
-export const getUserInfo = async (req, res) => {
-  console.log("getUserInfo", req.user);
+//Logout user
+export const logout = async (req, res) => {
   try {
-    const user = await CreateUser.findById(req.user.id).select("-password");
-
-    res.json(user);
+    res.clearCookie("refreshtoken", { path: "/user/refresh_token" });
+    return res.json({ msg: "Logged out." });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }

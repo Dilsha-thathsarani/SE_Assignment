@@ -1,4 +1,5 @@
 import CreateUser from "../models/createUser.js";
+import User from "../models/user.js";
 import { nanoid } from "nanoid";
 import sendMail from "./sendMail.js";
 import bcrypt from "bcrypt";
@@ -120,6 +121,32 @@ export const resetPassword = async (req, res) => {
     });
   } catch (err) {
     res.status(400).json(err);
+  }
+};
+
+//Register user
+export const registerUser = async (req, res) => {
+  try {
+    const { id, firstName, lastName, email, dateOfBirth, mobile, status } =
+      req.body;
+
+    await User.create({
+      id,
+      firstName,
+      lastName,
+      email,
+      dateOfBirth,
+      mobile,
+      status,
+    }).then(() => {
+      return res.status(200).json({
+        msg: "register Success",
+      });
+    });
+  } catch (err) {
+    return res.status(400).json({
+      msg: err,
+    });
   }
 };
 

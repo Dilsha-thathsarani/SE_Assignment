@@ -1,10 +1,13 @@
 import React from "react";
-
+import "../components/CSS/login.css";
 export default function Register() {
   return (
     <div>
       <div className="login-box">
-        <img src="#" className="avatar" />
+        <img
+          src="https://res.cloudinary.com/waste123/image/upload/v1656828180/RMTS/SE/dhq4bo7yviqktcedd4uo.jpg"
+          className="avatar"
+        />
         <h1>Register Here</h1>
         <form>
           <p>First Name</p>

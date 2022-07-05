@@ -164,6 +164,18 @@ export const getAllUsersInfo = async (req, res) => {
   }
 };
 
+//Get user information
+export const getUserInfo = async (req, res) => {
+  console.log("getUserInfo", req.user);
+  try {
+    const user = await CreateUser.findById(req.user.id).select("-password");
+
+    res.json(user);
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+};
+
 //Check if email is valid format
 function validateEmail(email) {
   const regex =

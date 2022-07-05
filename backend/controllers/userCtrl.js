@@ -101,19 +101,6 @@ export const resetPassword = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({
-        msg: "Please fill all the fields",
-      });
-    }
-    //Check if email already exists
-    const user = await CreateUser.findOne({ email });
-    if (!user) {
-      return res.status(400).json({
-        msg: "User does not exist",
-      });
-    }
-
     //check password length
     if (password.length < 8) {
       return res.status(400).json({

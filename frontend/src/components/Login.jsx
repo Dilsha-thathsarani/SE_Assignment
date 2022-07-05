@@ -1,9 +1,10 @@
 import React from "react";
+import "../components/CSS/login.css";
 
 export default function Login() {
   return (
     <div>
-      <div className="login-box">
+      <div className="login-box" style={{ marginTop: "10PX" }}>
         <img
           src="https://res.cloudinary.com/waste123/image/upload/v1656828180/RMTS/SE/dhq4bo7yviqktcedd4uo.jpg"
           className="avatar"

@@ -12,7 +12,6 @@ const Admins = {
 };
 
 const seedAdmin = async () => {
-  console.log("Seeding Admin", Admins.email);
   try {
     await Admin.findOneAndDelete({ email: Admins.email });
     await Admin.create(Admins);

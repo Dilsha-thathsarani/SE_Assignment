@@ -26,7 +26,7 @@ export default function Header() {
                 <a href="#">About</a>
               </li>
               <li>
-                <a href="/">Login</a>
+                <a href="/login">Login</a>
               </li>
               <li>
                 <a href="/reg">Register</a>

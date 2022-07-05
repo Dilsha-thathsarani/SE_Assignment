@@ -8,17 +8,27 @@ export default function Register() {
         <h1>Register Here</h1>
         <form>
           <p>First Name</p>
-          <input type="text" name="username" placeholder="Enter Firstname" />
+          <input
+            type="text"
+            name="userFirstname"
+            placeholder="Enter Firstname"
+          />
           <p>Last Name</p>
-          <input type="text" name="username" placeholder="Enter Lastname" />
+          <input type="text" name="userLastname" placeholder="Enter Lastname" />
           <p>Email</p>
-          <input type="text" name="email" placeholder="Enter email" />
+          <input type="email" name="email" placeholder="Enter email" />
           <p>Date Of Birth</p>
           <input type="date" name="date" />
           <p>Password</p>
           <input type="password" name="password" placeholder="Enter Password" />
-          <p>Telephone No</p>
-          <input type="text" name="Phone Number" pattern="[7-9]{1}[0-9]{9}" />
+          <p>Phone No</p>
+          <input
+            type="tel"
+            name="Phone Number"
+            pattern="+94[7-9]{2}-[0-9]{3}-[0-9]{4}"
+            value="+94"
+          />
+
           <button className="btn" type="submit" name="submit">
             REGISTER
           </button>

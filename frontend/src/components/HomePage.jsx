@@ -38,7 +38,7 @@ export default function Header() {
             <h1>
               MY <span> NOTES</span>
             </h1>
-            <a href="/note">ADD NOTE</a>
+            <a href="/notes">ADD NOTE</a>
           </div>
         </header>
       </>

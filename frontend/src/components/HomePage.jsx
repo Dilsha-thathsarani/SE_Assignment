@@ -26,6 +26,9 @@ export default function Header() {
                 <a href="#">About</a>
               </li>
               <li>
+                <a href="#">Contact US</a>
+              </li>
+              <li>
                 <a href="/login">Login</a>
               </li>
               <li>

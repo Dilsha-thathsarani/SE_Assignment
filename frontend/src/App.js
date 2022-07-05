@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-
+import {
+  dispatchLogin,
+  fetchUser,
+  dispatchGetUser,
+} from "./redux/actions/authAction";
 import CreateNote from "./components/CreateNote";
 import CreateUser from "./components/CreateUser";
 import Header from "./components/Header";
@@ -12,6 +16,7 @@ import Register from "./components/Register";
 
 function App() {
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.token);
   const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -25,6 +30,19 @@ function App() {
       getToken();
     }
   }, [auth.isLogged, dispatch]);
+
+  useEffect(() => {
+    if (token) {
+      const getUser = () => {
+        dispatch(dispatchLogin());
+
+        return fetchUser(token).then((res) => {
+          dispatch(dispatchGetUser(res));
+        });
+      };
+      getUser();
+    }
+  }, [token, dispatch]);
 
   return (
     <div>

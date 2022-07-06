@@ -1,10 +1,14 @@
 import React from "react";
 import "../components/CSS/home.css";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
 
 export default function HomePage() {
+  const auth = useSelector((state) => state.auth);
+  const { isAdmin } = auth;
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
@@ -28,7 +32,11 @@ export default function HomePage() {
             <h1>
               MY <span> NOTES</span>
             </h1>
-            <a href="/notes">ADD NOTE</a>
+            {isAdmin ? (
+              <a href="/create">CREATE USER</a>
+            ) : (
+              <a href="/">ADD NOTE</a>
+            )}
           </div>
         </>
       )}

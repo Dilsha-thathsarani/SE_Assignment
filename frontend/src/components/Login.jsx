@@ -2,10 +2,13 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { dispatchLogin } from "../redux/actions/authAction";
+import { useDispatch } from "react-redux";
 import "../components/CSS/login.css";
 
 export default function Login() {
   let navigate = useNavigate();
+  const dispatch = useDispatch();
   const [user, setUser] = useState({});
 
   const handleChange = (event) => {
@@ -23,6 +26,8 @@ export default function Login() {
       alert(response.data.msg);
       localStorage.setItem("Login", true);
       navigate("/reg");
+
+      dispatch(dispatchLogin());
     } catch (error) {
       alert(error.response.data.msg);
     }

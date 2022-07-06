@@ -1,30 +1,93 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
-export default function Header() {
+function Header() {
+  const auth = useSelector((state) => state.auth);
+  const { LoggedUser, isLogged, isAdmin } = auth;
+  const [token, setToken] = useState();
+  useEffect(() => {
+    setToken(localStorage.getItem("TOKEN"));
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await axios.get("/user/logout", { headers: { Authorization: token } });
+      alert("Logged out successfully");
+      localStorage.removeItem("Login");
+      window.location.href = "/";
+    } catch (err) {
+      alert(err);
+      window.location.href = "/";
+    }
+  };
+
+  const studentLink = () => {
+    return (
+      <ul className="nav-area">
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/notes">Add Note</Link>
+        </li>
+        <li>
+          <Link to="#">My Notes</Link>
+        </li>
+
+        <li>
+          <Link to="/login" onClick={handleLogout}>
+            Logout
+          </Link>
+        </li>
+      </ul>
+    );
+  };
+
+  const adminLink = () => {
+    return (
+      <ul className="nav-area">
+        <li style={{ marginRight: "700px", color: "white" }}>
+          <label>Hi {LoggedUser.firstName}</label>
+        </li>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/create">Create User</Link>
+        </li>
+        <li>
+          <Link to="#">All Users</Link>
+        </li>
+
+        <li>
+          <Link to="/login" onClick={handleLogout}>
+            Logout
+          </Link>
+        </li>
+      </ul>
+    );
+  };
+
   return (
     <header>
-      <div className="wrapper">
-        <div className="logo">
-          <img
-            src="https://res.cloudinary.com/waste123/image/upload/v1656825925/RMTS/SE/n4lpivbglyiv4mgufyoz.png"
-            alt=""
-          />
-        </div>
-        <ul className="nav-area">
+      <ul className="nav-area">
+        {isLogged ? (
+          isAdmin ? (
+            adminLink()
+          ) : (
+            studentLink()
+          )
+        ) : (
           <li>
-            <a href="/create">Home</a>
+            <Link to="/login">Sign in</Link>
           </li>
-          <li>
-            <a href="#">About</a>
-          </li>
-          <li>
-            <a href="/reg">Register</a>
-          </li>
-          <li>
-            <a href="/login">Login</a>
-          </li>
-        </ul>
-      </div>
+        )}
+      </ul>
     </header>
   );
 }
+
+export default Header;

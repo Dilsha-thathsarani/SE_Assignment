@@ -6,12 +6,13 @@ import jwt from "jsonwebtoken";
 //create user to the system
 export const createUser = async (req, res) => {
   try {
-    const { name, email, accountType } = req.body;
+    const { firstName, lastName, email, accountType } = req.body;
+    console.log(req.body);
 
     //Generate random password with 8 characters
     const temPassword = nanoid(8);
 
-    if (!name || !email || !accountType) {
+    if (!firstName || !lastName || !email || !accountType) {
       return res.status(400).json({
         msg: "Please fill all the fields",
       });
@@ -36,7 +37,8 @@ export const createUser = async (req, res) => {
 
     //Create new user
     await User.create({
-      name,
+      firstName,
+      lastName,
       email,
       accountType,
       password: temPasswordHash,
@@ -46,7 +48,7 @@ export const createUser = async (req, res) => {
       const url = `${process.env.CLIENT_URL}/login`;
 
       //Send temporary password and login url to user email
-      sendMail(name, temPassword, email, url);
+      sendMail(firstName, temPassword, email, url);
     });
   } catch (err) {
     res.status(400).json(err);

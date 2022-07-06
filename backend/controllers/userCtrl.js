@@ -90,6 +90,7 @@ export const login = async (req, res) => {
 
     return res.status(200).json({
       msg: "Login Success",
+      data: user,
     });
   } catch (err) {
     res.status(400).json(err);
@@ -127,24 +128,41 @@ export const registerUser = async (req, res) => {
   try {
     const { id, firstName, lastName, email, dateOfBirth, mobile, status } =
       req.body;
+    console.log(req.body);
 
-    await User.create({
-      id,
-      firstName,
-      lastName,
-      email,
-      dateOfBirth,
-      mobile,
-      status,
-    }).then(() => {
-      return res.status(200).json({
-        msg: "register Success",
+    // await User.create({
+    //   id,
+    //   firstName,
+    //   lastName,
+    //   email,
+    //   dateOfBirth,
+    //   mobile,
+    //   status,
+    // }).then(() => {
+    //   return res.status(200).json({
+    //     msg: "register Success",
+    //   });
+    // });
+    await User.findOneAndUpdate(
+      { email: email },
+      {
+        id: id,
+        dateOfBirth: dateOfBirth,
+        mobile: mobile,
+        status: status,
+      }
+    )
+      .then(() => {
+        return res.status(200).json({
+          msg: "register Success",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    });
   } catch (err) {
-    return res.status(400).json({
-      msg: err,
-    });
+    console.log(err);
+    res.status(400).json(err);
   }
 };
 

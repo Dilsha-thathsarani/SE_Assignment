@@ -25,6 +25,8 @@ export default function Login() {
       const response = await axios.post("user/login", user);
       alert(response.data.msg);
       localStorage.setItem("Login", true);
+      console.log("response", response.data.data);
+      localStorage.setItem("LocalUser", JSON.stringify(response.data.data));
       navigate("/reg");
 
       dispatch(dispatchLogin());

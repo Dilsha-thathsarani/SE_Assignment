@@ -5,23 +5,28 @@ const userSchema = new Schema(
   {
     id: {
       type: Number,
+      default: 0,
     },
     firstName: {
       type: String,
+      default: "",
     },
     lastName: {
       type: String,
+      default: "",
     },
     email: {
       type: String,
-
+      default: "",
       trim: true,
     },
     dateOfBirth: {
       type: Date,
+      default: "",
     },
     mobile: {
       type: Number,
+      default: 0,
     },
     status: {
       type: Boolean,

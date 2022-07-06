@@ -6,7 +6,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 export default function HomePage() {
   const auth = useSelector((state) => state.auth);
-  const { isAdmin } = auth;
+  const { isLogged, isAdmin } = auth;
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -32,11 +32,13 @@ export default function HomePage() {
             <h1>
               MY <span> NOTES</span>
             </h1>
-            {isAdmin ? (
-              <a href="/create">CREATE USER</a>
-            ) : (
-              <a href="/">ADD NOTE</a>
-            )}
+            {isLogged ? (
+              isAdmin ? (
+                <a href="/create">CREATE USER</a>
+              ) : (
+                <a href="/">ADD NOTE</a>
+              )
+            ) : null}
           </div>
         </>
       )}

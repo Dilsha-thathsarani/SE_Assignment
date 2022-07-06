@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const noteSchema = new Schema(
   {
     email: {
       type: String,
-      required: true,
+
       trim: true,
     },
 
@@ -25,4 +25,4 @@ const noteSchema = new Schema(
 );
 
 const Note = mongoose.model("note", noteSchema);
-module.exports = Note;
+export default Note;

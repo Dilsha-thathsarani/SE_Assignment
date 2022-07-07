@@ -13,6 +13,8 @@ import Header from "./components/Header";
 import HomePage from "./components/HomePage";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import NoteList from "./components/NoteList";
+import List from "./components/NoteList";
 
 function App() {
   const dispatch = useDispatch();
@@ -49,11 +51,12 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path="/" element={<HomePage />} exact />
-          <Route path="/login" element={<Login />} exact />
+          <Route exact path="/" element={<HomePage />} />
+          <Route exact path="/login" element={<Login />} />
           <Route path="/reg" element={<Register />} exact />
           <Route path="/create" element={<CreateUser />} exact />
           <Route path="/notes" element={<CreateNote />} exact />
+          <Route path="/list" element={<NoteList />} exact />
         </Routes>
       </Router>
     </div>

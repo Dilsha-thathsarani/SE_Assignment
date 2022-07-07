@@ -81,7 +81,7 @@ export default function CreateUser() {
 
           <div>
             <button
-              className="btn mt-3"
+              className="btnSubmit mt-3"
               style={{ marginTop: "15px" }}
               type="submit"
               name="submit"

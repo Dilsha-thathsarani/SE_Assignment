@@ -19,9 +19,9 @@ body {
   margin: auto;
 }
 header {
-  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
-    url(https://res.cloudinary.com/waste123/image/upload/v1656825835/RMTS/SE/akoj1pd2hkpzpkbclfyk.jpg);
-  height: 100vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
+  height: 10vh;
+
   -webkit-background-size: cover;
   background-size: cover;
   background-position: center center;
@@ -30,7 +30,7 @@ header {
 .nav-area {
   float: right;
   list-style: none;
-  margin-top: 30px;
+  margin-top: 15px;
 }
 .nav-area li {
   display: inline-block;
@@ -55,7 +55,7 @@ header {
   padding: 15px 0;
 }
 .welcome-text {
-  position: absolute;
+  position: relative;
   width: 600px;
   height: 300px;
   margin: 20% 30%;

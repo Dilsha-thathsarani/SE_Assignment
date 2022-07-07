@@ -18,7 +18,6 @@ function Header() {
   const handleLogout = async () => {
     try {
       await axios.get("/user/logout", { headers: { Authorization: token } });
-      alert("Logged out successfully");
       localStorage.removeItem("Login");
       window.location.href = "/";
     } catch (err) {
@@ -37,11 +36,11 @@ function Header() {
           <Link to="/notes">Add Note</Link>
         </li>
         <li>
-          <Link to="#">My Notes</Link>
+          <Link to="/list">My Notes</Link>
         </li>
 
         <li>
-          <Link to="/login" onClick={handleLogout}>
+          <Link to="#" onClick={handleLogout}>
             Logout
           </Link>
         </li>

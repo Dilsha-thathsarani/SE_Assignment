@@ -155,7 +155,7 @@ export default function Register() {
             onChange={handleChange}
           />
 
-          <button className="btn" type="submit" name="submit">
+          <button className="btnSubmit" type="submit" name="submit">
             REGISTER
           </button>
         </form>

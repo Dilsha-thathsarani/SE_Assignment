@@ -4,7 +4,7 @@ import "../components/CSS/note.css";
 export default function CreateNote() {
   return (
     <div>
-      <div className="inner">
+      <div className="inner mt-4">
         <div className="photo">
           <img src="https://res.cloudinary.com/waste123/image/upload/v1656833398/RMTS/SE/ngvm9vq9whtyg9wbwjhc.png" />
         </div>
@@ -16,7 +16,7 @@ export default function CreateNote() {
             <input type="text-area" placeholder="Description" />
 
             <div className="action-btn " style={{ marginLeft: "70px" }}>
-              <button className="btn primary">Create Note</button>
+              <button className="btnCreate primary">Create Note</button>
             </div>
           </form>
         </div>

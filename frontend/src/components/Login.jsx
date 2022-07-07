@@ -57,7 +57,7 @@ export default function Login() {
             placeholder="Enter Password"
             onChange={handleChange}
           />
-          <button className="btn" type="submit" name="submit">
+          <button className="btnSubmit" type="submit" name="submit">
             LOGIN
           </button>
         </form>

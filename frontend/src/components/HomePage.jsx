@@ -19,7 +19,7 @@ export default function HomePage() {
   return (
     <div className="loading">
       {loading ? (
-        <ClipLoader color={"#D0021B"} loading={loading} size={100} />
+        <ClipLoader color={"#ffc500"} loading={loading} size={100} />
       ) : (
         <>
           <link

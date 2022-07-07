@@ -69,8 +69,6 @@ export const updateNotes = async (req, res) => {
 export const getAllNotes = async (req, res) => {
   const page = parseInt(req.query.page);
   const limit = parseInt(req.query.limit);
-  const email = req.params.email;
-  console.log("email", email);
 
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;

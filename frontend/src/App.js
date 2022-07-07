@@ -53,9 +53,21 @@ function App() {
           <Route exact path="/" element={<HomePage />} />
           <Route exact path="/login" element={<Login />} />
           <Route path="/reg" element={<Register />} exact />
-          <Route path="/create" element={<CreateUser />} exact />
-          <Route path="/notes" element={<CreateNote />} exact />
-          <Route path="/list" element={<NoteList />} exact />
+          <Route
+            path="/create"
+            element={auth.isLogged && auth.isAdmin ? <CreateUser /> : <Login />}
+            exact
+          />
+          <Route
+            path="/notes"
+            element={auth.isLogged ? <CreateNote /> : <Login />}
+            exact
+          />
+          <Route
+            path="/list"
+            element={auth.isLogged ? <NoteList /> : <Login />}
+            exact
+          />
         </Routes>
       </Router>
     </div>

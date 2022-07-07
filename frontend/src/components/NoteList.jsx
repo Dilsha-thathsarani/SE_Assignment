@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useSelector } from "react-redux";
-import { Store } from "react-notifications-component";
 
 export default function NoteList() {
   const [email, setEmail] = useState("");
@@ -25,7 +24,7 @@ export default function NoteList() {
 
   useEffect(() => {
     axios
-      .get(`notes/getAllNotes/?page=1&limit=5`)
+      .get("notes/getAllNotes/?page=1&limit=5")
       .then((res) => {
         setNotes(res.data.existingNotes);
         setPageCount(res.data.pages);
@@ -84,30 +83,14 @@ export default function NoteList() {
     setLoading(true);
     setEnable(true);
     await axios
-      .put("http://localhost:8070/note/" + id, {
+      .put("notes/updateNote/" + id, {
         email,
         title,
         note,
       })
       .then((res) => {
         setLoading(false);
-        Store.addNotification({
-          title: "Note Updated Successfully",
-          message: "Your Note has been updated successfully",
-          animationIn: ["animate__animated", "animate__fadeIn"],
-          animationOut: ["animate__animated", "animate__fadeOut"],
-          type: "info",
-          insert: "top",
-          container: "top-right",
 
-          dismiss: {
-            duration: 1500,
-            onScreen: true,
-            showIcon: true,
-          },
-
-          width: 400,
-        });
         axios
           .get("notes/getAllNotes?page=" + currentPage + "&limit=5")
           .then((res) => {
@@ -135,22 +118,7 @@ export default function NoteList() {
         .then((res) => {
           setLoading(false);
           setModal(false);
-          // Store.addNotification({
-          //   title: "Delete Succesfully.",
-          //   animationIn: ["animate__animated", "animate__fadeIn"],
-          //   animationOut: ["animate__animated", "animate__fadeOut"],
-          //   type: "success",
-          //   insert: "top",
-          //   container: "top-right",
 
-          //   dismiss: {
-          //     duration: 2500,
-          //     onScreen: true,
-          //     showIcon: true,
-          //   },
-
-          //   width: 400,
-          // });
           alert("Note Deleted Successfully");
           console.log(res);
           window.location.reload(false);

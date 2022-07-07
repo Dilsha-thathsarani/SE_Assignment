@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { useSelector } from "react-redux";
+import { Store } from "react-notifications-component";
 
 export default function NoteList() {
   const [email, setEmail] = useState("");
@@ -14,12 +16,16 @@ export default function NoteList() {
   const [enable, setEnable] = useState(true);
   const [modal, setModal] = useState(false);
 
+  const auth = useSelector((state) => state.auth);
+  const { LoggedUser } = auth;
+  console.log("auth", auth);
+
   let prevClass = "page-item ",
     nextClass = "page-item ";
 
   useEffect(() => {
     axios
-      .get("notes/getAllNotes/?page=1&limit=5")
+      .get(`notes/getAllNotes/?page=1&limit=5`)
       .then((res) => {
         setNotes(res.data.existingNotes);
         setPageCount(res.data.pages);
@@ -72,6 +78,96 @@ export default function NoteList() {
           </li>
         );
       }
+    }
+  }
+  async function handleUpdate(id) {
+    setLoading(true);
+    setEnable(true);
+    await axios
+      .put("http://localhost:8070/note/" + id, {
+        email,
+        title,
+        note,
+      })
+      .then((res) => {
+        setLoading(false);
+        Store.addNotification({
+          title: "Note Updated Successfully",
+          message: "Your Note has been updated successfully",
+          animationIn: ["animate__animated", "animate__fadeIn"],
+          animationOut: ["animate__animated", "animate__fadeOut"],
+          type: "info",
+          insert: "top",
+          container: "top-right",
+
+          dismiss: {
+            duration: 1500,
+            onScreen: true,
+            showIcon: true,
+          },
+
+          width: 400,
+        });
+        axios
+          .get("notes/getAllNotes?page=" + currentPage + "&limit=5")
+          .then((res) => {
+            setNotes(res.data.existingNotes);
+            setPageCount(res.data.pages);
+            setLoading(false);
+          })
+          .catch((err) => {
+            alert(err.message);
+          });
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  }
+
+  async function handleDelete(id) {
+    let ans = window.confirm("Do you want to delete this note ?");
+
+    if (ans) {
+      setLoading(true);
+      setEnable(true);
+      axios
+        .delete("notes/deleteNote/" + id)
+        .then((res) => {
+          setLoading(false);
+          setModal(false);
+          // Store.addNotification({
+          //   title: "Delete Succesfully.",
+          //   animationIn: ["animate__animated", "animate__fadeIn"],
+          //   animationOut: ["animate__animated", "animate__fadeOut"],
+          //   type: "success",
+          //   insert: "top",
+          //   container: "top-right",
+
+          //   dismiss: {
+          //     duration: 2500,
+          //     onScreen: true,
+          //     showIcon: true,
+          //   },
+
+          //   width: 400,
+          // });
+          alert("Note Deleted Successfully");
+          console.log(res);
+          window.location.reload(false);
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+      axios
+        .get("notes/getAllNotes?page=" + currentPage + "&limit=5")
+        .then((res) => {
+          setNotes(res.data.existingNotes);
+          setPageCount(res.data.pages);
+          setLoading(false);
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
     }
   }
 
@@ -195,6 +291,32 @@ export default function NoteList() {
                 </div>
               </form>
             </ModalBody>
+            <ModalFooter>
+              <button
+                className="btn btn-danger"
+                data-bs-dismiss="modal"
+                onClick={() => handleDelete(noteid)}
+              >
+                <i className="fas fa-trash-alt"></i>&nbsp;Delete
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-info"
+                onClick={() => setEnable(false)}
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                class="btn btn-success"
+                data-bs-dismiss="modal"
+                disabled={enable}
+                onClick={() => handleUpdate(noteid)}
+              >
+                Save
+              </button>
+            </ModalFooter>
           </Modal>
         </div>
       </div>

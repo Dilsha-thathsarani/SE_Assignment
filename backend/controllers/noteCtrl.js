@@ -31,6 +31,7 @@ export const getNoteByID = async (req, res) => {
 //delete a note
 export const deleteNotes = async (req, res) => {
   let noteId = req.params.id;
+  console.log("noteID", noteId);
   Note.findByIdAndRemove(noteId).exec((err) => {
     if (err)
       return res.status(400).json({
@@ -68,6 +69,8 @@ export const updateNotes = async (req, res) => {
 export const getAllNotes = async (req, res) => {
   const page = parseInt(req.query.page);
   const limit = parseInt(req.query.limit);
+  const email = req.params.email;
+  console.log("email", email);
 
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;

@@ -14,7 +14,6 @@ import HomePage from "./components/HomePage";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import NoteList from "./components/NoteList";
-import List from "./components/NoteList";
 
 function App() {
   const dispatch = useDispatch();

@@ -36,7 +36,7 @@ export default function HomePage() {
               isAdmin ? (
                 <a href="/create">CREATE USER</a>
               ) : (
-                <a href="/">ADD NOTE</a>
+                <a href="/list">NOTE LIST</a>
               )
             ) : null}
           </div>
